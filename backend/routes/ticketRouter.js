@@ -6,4 +6,6 @@ router.get("/", ticketController.getAllTickets);
 router.get("/owned", ticketController.getAllUserTickets);
 router.get("/completed", ticketController.getAllCompletedTickets);
 router.post("/", ticketController.createTicket);
+router.post("/change-status/:id", ticketController.editTicket);
+router.delete('/:id', ticketController.deleteTicket)
 export default router;

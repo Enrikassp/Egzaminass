@@ -7,6 +7,12 @@ export async function getAllTickets(req, res) {
         .json({ message: "You must log in first!", status: false });;
     }
 
+    if (!req.session.isAdmin) {
+        return res
+        .status(403)
+        .json({ message: "You are not admin!", status: false });;
+    }
+
     const Tickets = await TicketModel.findAll()
     console.log(Tickets)
     res.status(200).json(Tickets)
@@ -22,8 +28,6 @@ export async function getAllCompletedTickets(req, res) {
     const Tickets = await TicketModel.findAll({where: {status: 'completed'}})
     res.status(200).json(Tickets)
 }
-
-
 
 export async function createTicket(req,res) {
     try {
@@ -57,4 +61,68 @@ export async function getAllUserTickets(req,res) {
     {
         console.log(err);
     } 
+}
+
+export async function editTicket(req,res)  {
+    try {
+        if (!req.session || !req.session.isLogged) {
+            return res
+            .status(403)
+            .json({ message: "You must log in first!", status: false });;
+        }
+
+        if (!req.session.isAdmin) {
+            return res
+            .status(403)
+            .json({ message: "You are not admin!", status: false });;
+        }
+
+        const {id} = req.params
+        if (!id || isNaN(id))
+            return res
+              .status(400)
+              .json({ message: "Ticket has no id" });
+        console.log(req)
+        const updatedTicket = TicketModel.update(req.body, {where: {id}})
+
+        if (!updatedTicket)
+            return res
+              .status(404)
+              .json({ message: "Ticket with provided ID was not found" });
+          res.status(201).json(updatedTicket);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export async function deleteTicket(req,res) {
+    try {
+        if (!req.session || !req.session.isLogged) {
+            return res
+            .status(403)
+            .json({ message: "You must log in first!", status: false });;
+        }
+
+        if (!req.session.isAdmin) {
+            return res
+            .status(403)
+            .json({ message: "You are not admin!", status: false });;
+        }
+
+        const {id} = req.params
+        if (!id || isNaN(id))
+            return res
+              .status(400)
+              .json({ message: "Ticket has no id" });
+
+        const updatedTicket = TicketModel.destroy({where: {id}})
+
+        if (!updatedTicket)
+            return res
+              .status(404)
+              .json({ message: "Ticket with provided ID was not found" });
+          res.status(201).json(updatedTicket);
+    } catch (err) {
+        console.log(err);
+    }
 }
