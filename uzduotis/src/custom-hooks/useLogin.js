@@ -4,6 +4,7 @@ import SessionContext from "../contexts/SessionContext";
 export default function useLogin() {
   const { setSessionState } = useContext(SessionContext);
   async function handleLogin(e) {
+    console.log('Suveikiu')
     e.preventDefault();
     const formData = new FormData(e.target);
     const loginData = {};

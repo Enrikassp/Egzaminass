@@ -77,13 +77,14 @@ import {
       )
     )
       return res.status(400).json({ message: "Invalid credentials" });
-  
+    console.log(existingUser)
     req.session.user = {
       email: existingUser.email,
       username: existingUser.username,
+      id: existingUser.id
     };
     req.session.isLogged = true;
-  
+    req.session.isAdmin = existingUser.isAdmin
     return res
       .status(200)
       .json({ message: "Logged in successfully", session: req.session });
@@ -103,5 +104,7 @@ import {
     if (!req.session || !req.session.isLogged) {
       return;
     }
+
+    console.log()
     res.status(200).json({ message: "User logged in", session: req.session });
   }

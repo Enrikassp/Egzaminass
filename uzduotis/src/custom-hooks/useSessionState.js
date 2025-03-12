@@ -14,12 +14,15 @@ export function useSessionState() {
 
       if (response.ok) {
         const data = await response.json();
+
+        console.log(data)
         setSessionState({
           user: {
             email: data.session.user.email || "",
             username: data.session.user.username || "",
           },
           isLogged: true,
+          isAdmin: data.session.isAdmin
         });
       } else {
         setSessionState({
