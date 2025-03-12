@@ -11,7 +11,7 @@ export default function Dashboard() {
     const logout = useLogout()
 
     return (
-        <main id="dashboard" className="container">
+        <main id="dashboard" className="container p-5">
             <div className="main-grid p-5">
             <Paper className="item nav flex justify-between items-center">
                 <div className="flex flex-col gap-5">

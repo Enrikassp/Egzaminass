@@ -1,4 +1,4 @@
-import { Button, Chip, FormControl, InputLabel, MenuItem, Paper, Select } from "@mui/material"
+import { Button, Chip, InputLabel, MenuItem, Paper, Select } from "@mui/material"
 import { useEffect, useState } from "react"
 
 export default function AdminTicketList() {
@@ -31,7 +31,6 @@ export default function AdminTicketList() {
       setStatus(event.target.value);
       const foundedTicket = userTickets.find((val) => val.id === id)
       foundedTicket.status = event.target.value
-      console.log(foundedTicket)
         const promise = await fetch(`/server/api/ticket/change-status/${id}`, {     
             method: "POST",
             headers: {
@@ -52,7 +51,8 @@ export default function AdminTicketList() {
 
         if (promise.ok) {
             alert('Ticket has been deleted')
-}
+            getUserOwnedTickets()
+        }
     }
    return (
     <div className="flex gap-5 flex-wrap">
